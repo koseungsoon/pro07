@@ -63,7 +63,7 @@ public class MemberDAO {
 			String email = memberVO.getEmail();
 
 			String query = "insert into t_member(id,pwd,name,email) VALUES(?,?,?,?)";
-			System.out.println("preparedStatement: " + query);
+			System.out.println("회원추가 sql문: " + query);
 
 			pstmt = conn.prepareStatement(query);
 
@@ -92,7 +92,7 @@ public class MemberDAO {
 
 			// 4. SQL 작성
 
-			String query = "select * from T_MEMBER";
+			String query = "select * from T_MEMBER order by joinDate";
 			System.out.println("실행한 sql: " + query);
 			// 3. 연결객체가(conn) sql을 돌려야함, sql을 돌리기위해서는 sql관련문구를 처리하는 PreparedStatement 인터페이스
 			// 사용
@@ -133,6 +133,32 @@ public class MemberDAO {
 		//
 
 	}
+	
+	
+	//회원 삭제코드
+	
+	public void delMember(String id) {
+		System.out.println("삭제하고자하는 id: "+ id);
+		
+		try {
+			conn= dataFactory.getConnection();
+			String query = "delete from t_member" + " where id=?";
+			System.out.println("실행한 sql문: "+ query);
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, id);
+			pstmt.executeUpdate();
+			pstmt.close();
+			
+			
+		} catch (Exception e) {
+			System.out.println("멤버삭제시 에러");
+
+		}
+		
+	}
+	
+	
+	
 
 	// DB 연결
 //	void connDB(){
